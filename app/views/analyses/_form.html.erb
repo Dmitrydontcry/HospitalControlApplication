@@ -1,0 +1,33 @@
+<%= form_with(model: analysis) do |form| %>
+  <% if analysis.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(analysis.errors.count, "error") %> prohibited this analysis from being saved:</h2>
+
+      <ul>
+        <% analysis.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :name, "Название",  style: "display: block", class: "form-label" %>
+    <%= form.text_field :name, class: "form-text" %>
+  </div>
+
+  <div>
+    <%= form.label :description, "Описание", style: "display: block", class: "form-label" %>
+    <%= form.text_field :description, class: "form-text" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :patient, "Пациент", style: "display: block", class: "form-label" %>
+    <%= select("analysis", "patient_id", Patient.all.collect {|p| [ "#{p.first_name} #{p.last_name}", p.id ] },
+                { include_blank: true }, class: "form-select", style: "width: 200px;") %>
+  </div>
+
+  <div>
+    <%= form.submit "Создать", :class => "btn btn-success" %>
+  </div>
+<% end %>

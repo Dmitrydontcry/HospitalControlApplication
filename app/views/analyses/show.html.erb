@@ -1,0 +1,54 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @analysis %>
+
+<div>
+  <%= link_to "Редактировать", edit_analysis_path(@analysis) %> |
+  <%= link_to "Назад", analyses_path %>
+
+  <%= button_to "Удалить", @analysis, method: :delete, class: "btn btn-danger" %>
+</div>
+
+<h1>Прикрепленные файлы</h1>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Название</th>
+      <th scope="col">Предпросмотр</th>
+      <th scope="col">Действия</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @analysis.attachments.each do |attachment| %>
+      <tr>
+        <th scope="row"><%= attachment.id %></th>
+        <td><%= attachment.name %></td>
+
+        <td>
+          <%= image_tag url_for(:controller => "attachments", :action => "download", :id => attachment.id), width: 512 %>
+        </td>
+
+        <td>
+          <div class="d-flex flex-row mb-3">
+            <%= button_to "Скачать", attachments_download_path(attachment),
+                          params: {analysis_id: @analysis.id},
+                          method: :get, class: "btn btn-primary" %>
+            <%= button_to("Удалить", attachment, params: {analysis_id: @analysis.id}, method: :delete, class: "btn btn-danger")%>
+          <div>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+
+<div class="d-flex flex-fill align-items-center">
+  <%= form_tag({:controller => "attachments", :action => 'create', :method=> :post}, {:multipart => true}) do %>
+      <%= hidden_field_tag :analysis_id, @analysis.id  %>
+      <%= label_tag :attachments, 'Прикрепить файлы:', class: 'form-label mb-3' %>
+      <%= file_field_tag :attachments, :multiple => true, name: 'attachments[]', class: 'form-control mb-3' %>
+      <%= submit_tag 'Загрузить', class: 'btn btn-primary' %>
+  <% end %>
+</div>

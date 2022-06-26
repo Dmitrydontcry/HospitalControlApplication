@@ -1,0 +1,22 @@
+<div id="<%= dom_id analysis %>">
+  <h3>
+   <strong>Анализ #<%= analysis.id %></strong>
+  </h3>
+
+  <p>
+    <strong>Название:</strong>
+    <%= analysis.name %>
+  </p>
+
+  <p>
+    <strong>Описание:</strong>
+    <%= analysis.description %>
+  </p>
+
+  <p>
+    <strong>Пациент:</strong>
+    <%= link_to "#{analysis.patient.first_name} #{analysis.patient.last_name}",
+                      patient_path(analysis.patient), class: "btn btn-link" %>
+  </p>
+
+</div>

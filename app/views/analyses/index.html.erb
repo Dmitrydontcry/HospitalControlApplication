@@ -1,0 +1,40 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Анализы</h1>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Название</th>
+      <th scope="col">Описание</th>
+      <th scope="col">Пациент</th>
+      <th scope="col">Врач</th>
+      <th scope="col">Действия</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @analyses.each do |analysis| %>
+      <tr>
+        <th scope="row"><%= analysis.id %></th>
+        <td><%= analysis.name %></td>
+        <td><%= analysis.description %></td>
+        <td><%= link_to "#{analysis.patient.first_name} #{analysis.patient.last_name}",
+                        patient_path(analysis.patient), class: "btn btn-link" %></td>
+
+        <td><%= analysis.patient.user.email %></td>
+
+        <td>
+          <div class="d-flex flex-row mb-3">
+            <%= link_to "Показать", analysis_path(analysis), class: "btn btn-light" %>
+            <%= link_to "Редактировать", edit_analysis_path(analysis), class: "btn btn-light" %>
+            <%= button_to "Удалить", analysis, method: :delete, class: "btn btn-danger" %>
+          <div>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+
+<%= link_to "Новый анализ", new_analysis_path, class: "btn btn-primary" %>
